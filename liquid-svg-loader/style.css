@@ -1,0 +1,228 @@
+/* ============================================================
+   LIQUID LOADER - Estilos e Animações
+   Versão: 2.0
+   Autor: [Seu nome]
+   Descrição: Loader com efeito líquido usando SVG filters
+   Compatibilidade: Chrome, Firefox, Safari, Edge (modernos)
+   ============================================================ */
+
+/* ============================================================
+   1. RESET E CONFIGURAÇÕES GLOBAIS
+   ============================================================ */
+
+/* Reset básico para remover margens do navegador e garantir consistência */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Garante que padding/borda não quebrem o tamanho dos elementos */
+}
+
+/* ============================================================
+   2. LAYOUT PRINCIPAL
+   ============================================================ */
+
+/* Centralização absoluta do loader na tela com fundo escuro */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Altura mínima de 100% da viewport */
+  background-color: #010b10; /* Azul escuro profundo de fundo */
+
+  /* Previne scroll desnecessário em telas muito pequenas */
+  overflow: hidden;
+}
+
+/* ============================================================
+   3. CONTAINER DO LOADER
+   ============================================================ */
+
+/* Área delimitadora onde as gotas vão correr */
+.loader {
+  position: relative;
+  width: 300px;
+  height: 40px;
+
+  /* CHAVE DO EFEITO: Aplica o filtro SVG definido no HTML 
+     Isso cria o aspecto líquido/borrado nas bordas */
+  filter: url(#liquid);
+
+  /* Otimização para GPU - melhora performance da animação */
+  will-change: filter;
+}
+
+/* ============================================================
+   4. ELEMENTOS (GOTAS)
+   ============================================================ */
+
+.loader span {
+  /* Posicionamento absoluto em relação ao container pai (.loader) */
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  /* Dimensões da gota - 40x40px (quadrado que parece redondo pelo filtro) */
+  width: 40px;
+  height: 40px;
+
+  /* Força o span (inline por padrão) a se comportar como bloco,
+     garantindo que respeite as propriedades de largura e altura */
+  display: block;
+
+  /* Efeito de brilho neon ao redor da gota (sombra ciano) */
+  box-shadow: 0 0 40px #009ad4;
+
+  /* Degradê vertical do ciano claro ao azul ciano */
+  background: linear-gradient(#02edff, #009ad4);
+
+  /* ANIMAÇÃO PRINCIPAL:
+     - 5 segundos por ciclo completo
+     - Aceleração e desaceleração suaves (ease-in-out)
+     - Repete infinitamente (infinite) */
+  animation: animate 5s ease-in-out infinite;
+
+  /* ATRASO DINÂMICO:
+     Cada gota começa em tempos diferentes baseado no índice --i
+     Fórmula: 0.2s * i (ex: gota 1 = 0.2s, gota 2 = 0.4s, ...)
+     Isso cria o efeito cascata/onda */
+  animation-delay: calc(0.2s * var(--i));
+
+  /* CORES DINÂMICAS:
+     Rotaciona o matiz (hue) em 60° multiplicado pelo índice --i
+     Resultado: cada gota tem uma cor única do espectro */
+  filter: hue-rotate(calc(60deg * var(--i)));
+
+  /* Otimização de performance para animações */
+  will-change: transform, left;
+
+  /* Suaviza as bordas para melhor visualização do efeito líquido */
+  border-radius: 50%; /* Comentado: o filtro SVG já faz isso, mas ajuda como fallback */
+}
+
+/* ============================================================
+   5. KEYFRAMES - ANIMAÇÃO DE MOVIMENTO
+   ============================================================ */
+
+/* Lógica da Animação de Ida e Volta:
+   Movimenta as gotas horizontalmente usando a propriedade 'left'.
+   O ciclo completo dura 5 segundos (definido no animation-duration) */
+@keyframes animate {
+  0% {
+    left: 0; /* Posição inicial: extrema esquerda */
+  }
+  25% {
+    /* Movimento para a direita:
+       100% = largura do container pai (300px)
+       - 40px = largura da própria gota
+       Resultado: 260px (posição final à direita sem transbordar) */
+    left: calc(100% - 40px);
+  }
+  50% {
+    /* PAUSA NA DIREITA:
+       Mantém a gota parada entre 25% e 50% da animação
+       Isso cria um efeito de "respiração" ou "hesitação" */
+    left: calc(100% - 40px);
+  }
+  75% {
+    /* Início do retorno para a esquerda */
+    left: 0;
+  }
+  100% {
+    /* Posição final: volta à extrema esquerda
+       O ciclo então se repete */
+    left: 0;
+  }
+}
+
+/* ============================================================
+   6. SVG - FILTRO PARA EFEITO LÍQUIDO
+   ============================================================ */
+
+/* Esconde completamente o SVG estrutural da tela
+   O SVG só é usado como referência para o filtro, não deve ser visível */
+svg {
+  width: 0;
+  height: 0;
+  position: absolute; /* Garante que não afete o layout */
+  overflow: hidden; /* Previne qualquer vazamento visual */
+}
+
+/* ============================================================
+   7. FALLBACK PARA NAVEGADORES SEM SUPORTE A SVG FILTERS
+   ============================================================ */
+
+/* Se o navegador não suportar filter: url(), usa um estilo alternativo */
+@supports not (filter: url(#liquid)) {
+  .loader {
+    /* Fallback: remove o filtro e usa um estilo mais simples */
+    filter: none;
+  }
+
+  .loader span {
+    /* Mantém as cores mas sem o efeito líquido */
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 157, 212, 0.5);
+  }
+}
+
+/* ============================================================
+   8. RESPONSIVIDADE - AJUSTES PARA TELAS MENORES
+   ============================================================ */
+
+/* Para tablets e smartphones */
+@media (max-width: 480px) {
+  .loader {
+    width: 200px; /* Reduz o tamanho do container */
+    height: 30px;
+  }
+
+  .loader span {
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 20px #009ad4;
+  }
+
+  /* Ajusta a animação para telas menores */
+  @keyframes animate {
+    0%,
+    75%,
+    100% {
+      left: 0;
+    }
+    25%,
+    50% {
+      left: calc(100% - 30px);
+    }
+  }
+}
+
+/* Para telas muito pequenas (smartphones antigos) */
+@media (max-width: 320px) {
+  .loader {
+    width: 150px;
+    height: 25px;
+  }
+
+  .loader span {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* ============================================================
+   9. PREFERÊNCIAS DE ACESSIBILIDADE
+   ============================================================ */
+
+/* Respeita a preferência do usuário por redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .loader span {
+    /* Desativa a animação para pessoas com sensibilidade a movimento */
+    animation: none;
+    /* Mantém as gotas visíveis mas estáticas */
+    opacity: 0.7;
+  }
+}
+
+/* ============================================================
+   FIM DOS ESTILOS
+   ============================================================ */
