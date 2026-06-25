@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  background: #fff;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.main-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.brand-logo {
+  color: #112434;
+  font-weight: 700;
+  font-size: 2em;
+  text-decoration: none;
+}
+
+.navigation-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-link {
+  text-decoration: none;
+  padding: 6px 15px;
+  color: #112434;
+  border-radius: 20px;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #112434;
+  color: #fff;
+}
+
+/* ===== SEÇÃO PARALLAX ===== */
+.parallax-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.parallax-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+/* ===== TÍTULO (atrás das imagens) ===== */
+#hero-title {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 4em;
+  color: #112434;
+  /* 
+        IMPORTANTE: 
+        - Sem left: 50% (diferente do que eu tinha feito)
+        - Apenas translateY(-50%) para centralizar verticalmente
+        - O alinhamento horizontal é feito pelo flex do .parallax-section
+    */
+}
+
+/* ===== SEÇÃO DE CONTEÚDO ===== */
+.content-section {
+  position: relative;
+  padding: 100px;
+  background: #112434;
+}
+
+.section-title {
+  font-size: 3em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.content-section p {
+  font-size: 1em;
+  color: #fff;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.content-section p:last-child {
+  margin-bottom: 0;
+}
