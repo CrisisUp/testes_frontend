@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Drop</title>
+    <link rel="stylesheet" href="style-drop.css">
+</head>
+
+<body>
+    <div class="loader">
+        <span style="--i:1;"></span>
+        <span style="--i:2;"></span>
+        <span style="--i:3;"></span>
+        <span style="--i:4;"></span>
+        <span style="--i:5;"></span>
+    </div>
+    <svg>
+        <filter id="liquid">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+            <feColorMatrix values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 15 -8
+            " />
+        </filter>
+    </svg>
+</body>
+
+</html>

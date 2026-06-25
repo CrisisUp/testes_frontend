@@ -1,0 +1,475 @@
+/* ============================================================
+   LIQUID CIRCLE - Estilos e Animações
+   Versão: 2.0
+   Descrição: Loader com gotas orbitando em círculo e efeito líquido
+   Compatibilidade: Chrome, Firefox, Safari, Edge (modernos)
+   ============================================================ */
+
+/* ============================================================
+   1. RESET E CONFIGURAÇÕES GLOBAIS
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   2. LAYOUT PRINCIPAL
+   ============================================================ */
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #0a0a1a 0%, #050510 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   3. BOTÃO VOLTAR
+   ============================================================ */
+
+.back {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  letter-spacing: 0.5px;
+}
+
+.back:hover {
+  color: white;
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+  transform: translateX(-5px);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.05);
+}
+
+/* ============================================================
+   4. TÍTULOS
+   ============================================================ */
+
+h1 {
+  color: white;
+  font-size: 2.8rem;
+  font-weight: 300;
+  background: linear-gradient(135deg, #00d4ff 0%, #ff006e 50%, #00ff88 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease-in-out infinite;
+  text-shadow: 0 0 60px rgba(0, 212, 255, 0.1);
+  letter-spacing: -1px;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.95rem;
+  margin-top: -10px;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+.subtitle::before {
+  content: "✦ ";
+  color: #00d4ff;
+}
+
+.subtitle::after {
+  content: " ✦";
+  color: #ff006e;
+}
+
+/* ============================================================
+   5. LOADER PRINCIPAL
+   ============================================================ */
+
+.loader {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  filter: url(#liquid);
+  margin: 10px 0;
+
+  /* Otimização de performance */
+  will-change: filter;
+}
+
+/* ============================================================
+   6. ELEMENTOS (GOTAS)
+   ============================================================ */
+
+.loader span {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #00d4ff, #0044aa);
+
+  /* Animação principal */
+  animation: orbit 4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation-delay: calc(var(--i) * 0.15s);
+
+  /* Efeito de brilho */
+  box-shadow:
+    0 0 30px rgba(0, 212, 255, 0.4),
+    0 0 60px rgba(0, 212, 255, 0.15),
+    inset 0 -5px 15px rgba(0, 0, 0, 0.3);
+
+  /* Otimização */
+  will-change: transform;
+
+  /* Ponto de origem da transformação */
+  transform-origin: center;
+}
+
+/* ============================================================
+   7. ANIMAÇÃO DE ÓRBITA
+   ============================================================ */
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(100px) scale(1);
+    background: radial-gradient(circle at 30% 30%, #ff006e, #880044);
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.4);
+  }
+  12.5% {
+    background: radial-gradient(circle at 30% 30%, #ff6b00, #883300);
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.4);
+  }
+  25% {
+    transform: rotate(90deg) translateX(100px) scale(1.3);
+    background: radial-gradient(circle at 30% 30%, #ffaa00, #885500);
+    box-shadow: 0 0 40px rgba(255, 170, 0, 0.5);
+  }
+  37.5% {
+    background: radial-gradient(circle at 30% 30%, #00ff88, #008844);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+  }
+  50% {
+    transform: rotate(180deg) translateX(100px) scale(0.8);
+    background: radial-gradient(circle at 30% 30%, #00d4ff, #004488);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  }
+  62.5% {
+    background: radial-gradient(circle at 30% 30%, #0066ff, #002288);
+    box-shadow: 0 0 30px rgba(0, 102, 255, 0.4);
+  }
+  75% {
+    transform: rotate(270deg) translateX(100px) scale(1.3);
+    background: radial-gradient(circle at 30% 30%, #8800ff, #440088);
+    box-shadow: 0 0 40px rgba(136, 0, 255, 0.5);
+  }
+  87.5% {
+    background: radial-gradient(circle at 30% 30%, #ff006e, #880044);
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.4);
+  }
+  100% {
+    transform: rotate(360deg) translateX(100px) scale(1);
+    background: radial-gradient(circle at 30% 30%, #ff006e, #880044);
+    box-shadow: 0 0 30px rgba(255, 0, 110, 0.4);
+  }
+}
+
+/* ============================================================
+   8. BADGES DE INFORMAÇÃO
+   ============================================================ */
+
+.info {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.badge {
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.badge:hover {
+  border-color: rgba(0, 212, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 212, 255, 0.05);
+}
+
+/* ============================================================
+   9. FOOTER
+   ============================================================ */
+
+.footer {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+/* ============================================================
+   10. SVG - FILTRO PARA EFEITO LÍQUIDO
+   ============================================================ */
+
+svg {
+  width: 0;
+  height: 0;
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ============================================================
+   11. FALLBACK PARA NAVEGADORES SEM SUPORTE
+   ============================================================ */
+
+@supports not (filter: url(#liquid)) {
+  .loader {
+    filter: none;
+  }
+
+  .loader span {
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+}
+
+/* ============================================================
+   12. RESPONSIVIDADE
+   ============================================================ */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .loader {
+    width: 160px;
+    height: 160px;
+  }
+
+  .loader span {
+    width: 32px;
+    height: 32px;
+  }
+
+  @keyframes orbit {
+    0%,
+    100% {
+      transform: rotate(0deg) translateX(80px) scale(1);
+    }
+    25% {
+      transform: rotate(90deg) translateX(80px) scale(1.25);
+    }
+    50% {
+      transform: rotate(180deg) translateX(80px) scale(0.8);
+    }
+    75% {
+      transform: rotate(270deg) translateX(80px) scale(1.25);
+    }
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .back {
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Smartphones grandes */
+@media (max-width: 480px) {
+  .loader {
+    width: 130px;
+    height: 130px;
+  }
+
+  .loader span {
+    width: 26px;
+    height: 26px;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  @keyframes orbit {
+    0%,
+    100% {
+      transform: rotate(0deg) translateX(65px) scale(1);
+    }
+    25% {
+      transform: rotate(90deg) translateX(65px) scale(1.2);
+    }
+    50% {
+      transform: rotate(180deg) translateX(65px) scale(0.8);
+    }
+    75% {
+      transform: rotate(270deg) translateX(65px) scale(1.2);
+    }
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .back {
+    top: 15px;
+    left: 15px;
+    font-size: 0.7rem;
+    padding: 6px 14px;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    padding: 4px 12px;
+  }
+
+  .info {
+    gap: 8px;
+  }
+
+  .footer {
+    bottom: 15px;
+    font-size: 0.6rem;
+  }
+}
+
+/* Smartphones pequenos */
+@media (max-width: 360px) {
+  .loader {
+    width: 110px;
+    height: 110px;
+  }
+
+  .loader span {
+    width: 22px;
+    height: 22px;
+  }
+
+  @keyframes orbit {
+    0%,
+    100% {
+      transform: rotate(0deg) translateX(55px) scale(1);
+    }
+    25% {
+      transform: rotate(90deg) translateX(55px) scale(1.15);
+    }
+    50% {
+      transform: rotate(180deg) translateX(55px) scale(0.8);
+    }
+    75% {
+      transform: rotate(270deg) translateX(55px) scale(1.15);
+    }
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ============================================================
+   13. ACESSIBILIDADE
+   ============================================================ */
+
+/* Respeita a preferência do usuário por redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .loader span {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  /* Posiciona as gotas estaticamente em uma órbita */
+  .loader span:nth-child(1) {
+    transform: rotate(0deg) translateX(100px);
+  }
+  .loader span:nth-child(2) {
+    transform: rotate(45deg) translateX(100px);
+  }
+  .loader span:nth-child(3) {
+    transform: rotate(90deg) translateX(100px);
+  }
+  .loader span:nth-child(4) {
+    transform: rotate(135deg) translateX(100px);
+  }
+  .loader span:nth-child(5) {
+    transform: rotate(180deg) translateX(100px);
+  }
+  .loader span:nth-child(6) {
+    transform: rotate(225deg) translateX(100px);
+  }
+  .loader span:nth-child(7) {
+    transform: rotate(270deg) translateX(100px);
+  }
+  .loader span:nth-child(8) {
+    transform: rotate(315deg) translateX(100px);
+  }
+
+  h1 {
+    animation: none;
+    -webkit-text-fill-color: #00d4ff;
+    background: none;
+  }
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+  .loader span {
+    border: 2px solid white;
+    box-shadow: none;
+  }
+
+  .back {
+    border-color: white;
+    color: white;
+  }
+}
+
+/* ============================================================
+   FIM DOS ESTILOS
+   ============================================================ */

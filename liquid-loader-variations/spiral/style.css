@@ -1,0 +1,433 @@
+/* ============================================================
+   LIQUID SPIRAL - Estilos e Animações
+   Versão: 2.0
+   Descrição: Loader com espiral hipnótica em movimento
+   Compatibilidade: Chrome, Firefox, Safari, Edge (modernos)
+   ============================================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   BOTÃO VOLTAR
+   ============================================================ */
+
+.back {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  letter-spacing: 0.5px;
+}
+
+.back:hover {
+  color: white;
+  border-color: #ff006e;
+  background: rgba(255, 0, 110, 0.08);
+  transform: translateX(-5px);
+  box-shadow: 0 0 30px rgba(255, 0, 110, 0.05);
+}
+
+/* ============================================================
+   TÍTULOS
+   ============================================================ */
+
+h1 {
+  color: white;
+  font-size: 2.8rem;
+  font-weight: 300;
+  background: linear-gradient(
+    135deg,
+    #ff006e 0%,
+    #ff6b00 25%,
+    #00ff88 50%,
+    #0066ff 75%,
+    #8800ff 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease-in-out infinite;
+  text-shadow: 0 0 60px rgba(255, 0, 110, 0.1);
+  letter-spacing: -1px;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.95rem;
+  margin-top: -10px;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+.subtitle::before {
+  content: "✦ ";
+  color: #ff006e;
+}
+
+.subtitle::after {
+  content: " ✦";
+  color: #8800ff;
+}
+
+/* ============================================================
+   LOADER PRINCIPAL
+   ============================================================ */
+
+.loader {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  filter: url(#liquid);
+  will-change: filter;
+}
+
+/* ============================================================
+   ELEMENTOS (PARTÍCULAS)
+   ============================================================ */
+
+.loader span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff006e, #cc0055);
+  animation: spiral 4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.08s);
+  box-shadow:
+    0 0 20px rgba(255, 0, 110, 0.6),
+    0 0 40px rgba(255, 0, 110, 0.3);
+  will-change: transform, background, opacity;
+}
+
+/* ============================================================
+   ANIMAÇÃO DA ESPIRAL
+   ============================================================ */
+
+@keyframes spiral {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(0px) scale(1);
+    background: radial-gradient(circle at 30% 30%, #ff006e, #cc0055);
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+    opacity: 1;
+  }
+  12.5% {
+    background: radial-gradient(circle at 30% 30%, #ff6b00, #cc5500);
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.6);
+  }
+  25% {
+    background: radial-gradient(circle at 30% 30%, #ffaa00, #cc8800);
+    box-shadow: 0 0 20px rgba(255, 170, 0, 0.6);
+  }
+  37.5% {
+    background: radial-gradient(circle at 30% 30%, #00ff88, #00cc66);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) translateX(150px) scale(0.5);
+    background: radial-gradient(circle at 30% 30%, #00d4ff, #004488);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+    opacity: 0.5;
+  }
+  62.5% {
+    background: radial-gradient(circle at 30% 30%, #0066ff, #002288);
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.6);
+  }
+  75% {
+    background: radial-gradient(circle at 30% 30%, #8800ff, #440088);
+    box-shadow: 0 0 20px rgba(136, 0, 255, 0.6);
+  }
+  87.5% {
+    background: radial-gradient(circle at 30% 30%, #ff006e, #cc0055);
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) translateX(0px) scale(1);
+    background: radial-gradient(circle at 30% 30%, #ff006e, #cc0055);
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   BADGES DE INFORMAÇÃO
+   ============================================================ */
+
+.info {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.badge {
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.badge:hover {
+  border-color: rgba(255, 0, 110, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 0, 110, 0.05);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+/* ============================================================
+   SVG - FILTRO PARA EFEITO LÍQUIDO
+   ============================================================ */
+
+svg {
+  width: 0;
+  height: 0;
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ============================================================
+   FALLBACK PARA NAVEGADORES SEM SUPORTE
+   ============================================================ */
+
+@supports not (filter: url(#liquid)) {
+  .loader {
+    filter: none;
+  }
+
+  .loader span {
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+  }
+}
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .loader {
+    width: 320px;
+    height: 320px;
+  }
+
+  .loader span {
+    width: 16px;
+    height: 16px;
+  }
+
+  @keyframes spiral {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg) translateX(0px) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(180deg) translateX(120px)
+        scale(0.5);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg) translateX(0px) scale(1);
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .back {
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .loader {
+    width: 260px;
+    height: 260px;
+  }
+
+  .loader span {
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 0 15px rgba(255, 0, 110, 0.4);
+  }
+
+  @keyframes spiral {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg) translateX(0px) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(180deg) translateX(100px)
+        scale(0.5);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg) translateX(0px) scale(1);
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .back {
+    top: 15px;
+    left: 15px;
+    font-size: 0.7rem;
+    padding: 6px 14px;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    padding: 4px 12px;
+  }
+
+  .info {
+    gap: 8px;
+  }
+
+  .footer {
+    bottom: 15px;
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .loader {
+    width: 200px;
+    height: 200px;
+  }
+
+  .loader span {
+    width: 12px;
+    height: 12px;
+  }
+
+  @keyframes spiral {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg) translateX(0px) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(180deg) translateX(80px)
+        scale(0.5);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg) translateX(0px) scale(1);
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ============================================================
+   ACESSIBILIDADE
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .loader span {
+    animation: none;
+    opacity: 0.6;
+  }
+
+  h1 {
+    animation: none;
+    -webkit-text-fill-color: #ff006e;
+    background: none;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .loader span {
+    border: 2px solid white;
+    box-shadow: none;
+  }
+
+  .back {
+    border-color: white;
+    color: white;
+  }
+}

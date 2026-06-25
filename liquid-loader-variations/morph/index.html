@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Morph - Loader Animado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- ============================================================
+    BOTÃO DE VOLTAR
+    ============================================================ -->
+    <a href="../" class="back" aria-label="Voltar para o menu principal">
+        ← Voltar
+    </a>
+
+    <!-- ============================================================
+    CONTAINER PRINCIPAL
+    ============================================================ -->
+    <div class="container">
+        <!-- TÍTULO -->
+        <h1>🌀 Liquid Morph</h1>
+        <p class="subtitle">Formas que se transformam organicamente com efeito líquido</p>
+
+        <!-- ============================================================
+        LOADER
+        ============================================================ -->
+        <div class="loader" role="status" aria-label="Carregando...">
+            <!-- 6 formas com índices diferentes para delays variados -->
+            <span style="--i:1;" title="Morph 1"></span>
+            <span style="--i:2;" title="Morph 2"></span>
+            <span style="--i:3;" title="Morph 3"></span>
+            <span style="--i:4;" title="Morph 4"></span>
+            <span style="--i:5;" title="Morph 5"></span>
+            <span style="--i:6;" title="Morph 6"></span>
+        </div>
+
+        <!-- INFORMAÇÕES TÉCNICAS -->
+        <div class="info">
+            <span class="badge">🎯 6 formas</span>
+            <span class="badge">⏱️ 6s ciclo</span>
+            <span class="badge">🌀 Morfismo</span>
+            <span class="badge">💎 Filtro SVG</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SVG - FILTRO PARA EFEITO LÍQUIDO
+    ============================================================ -->
+    <svg aria-hidden="true">
+        <filter id="liquid">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="15" />
+            <feColorMatrix values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 35 -18
+            " />
+        </filter>
+    </svg>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer">
+        <p>Feito com ❤️ usando SVG Filters &amp; CSS Animations</p>
+    </footer>
+</body>
+
+</html>

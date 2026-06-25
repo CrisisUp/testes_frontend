@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Wave - Loader Animado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- ============================================================
+    BOTÃO DE VOLTAR
+    ============================================================ -->
+    <a href="../" class="back" aria-label="Voltar para o menu principal">
+        ← Voltar
+    </a>
+
+    <!-- ============================================================
+    CONTAINER PRINCIPAL
+    ============================================================ -->
+    <div class="container">
+        <!-- TÍTULO -->
+        <h1>🌊 Liquid Wave</h1>
+        <p class="subtitle">Onda líquida horizontal com movimento fluido e orgânico</p>
+
+        <!-- ============================================================
+        LOADER
+        ============================================================ -->
+        <div class="loader" role="status" aria-label="Carregando...">
+            <!-- 12 barras com índices diferentes para delays variados -->
+            <span style="--i:1;" title="Onda 1"></span>
+            <span style="--i:2;" title="Onda 2"></span>
+            <span style="--i:3;" title="Onda 3"></span>
+            <span style="--i:4;" title="Onda 4"></span>
+            <span style="--i:5;" title="Onda 5"></span>
+            <span style="--i:6;" title="Onda 6"></span>
+            <span style="--i:7;" title="Onda 7"></span>
+            <span style="--i:8;" title="Onda 8"></span>
+            <span style="--i:9;" title="Onda 9"></span>
+            <span style="--i:10;" title="Onda 10"></span>
+            <span style="--i:11;" title="Onda 11"></span>
+            <span style="--i:12;" title="Onda 12"></span>
+        </div>
+
+        <!-- INFORMAÇÕES TÉCNICAS -->
+        <div class="info">
+            <span class="badge">🎯 12 ondas</span>
+            <span class="badge">⏱️ 1.5s ciclo</span>
+            <span class="badge">🌊 Fluido</span>
+            <span class="badge">💧 Filtro SVG</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SVG - FILTRO PARA EFEITO LÍQUIDO
+    ============================================================ -->
+    <svg aria-hidden="true">
+        <filter id="liquid">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+            <feColorMatrix values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 30 -15
+            " />
+        </filter>
+    </svg>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer">
+        <p>Feito com ❤️ usando SVG Filters &amp; CSS Animations</p>
+    </footer>
+</body>
+
+</html>

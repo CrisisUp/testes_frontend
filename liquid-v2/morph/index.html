@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Morph - Loader Animado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- ============================================================
+    BOTÃO DE VOLTAR
+    ============================================================ -->
+    <a href="../" class="back" aria-label="Voltar para o menu principal">
+        ← Voltar
+    </a>
+
+    <!-- ============================================================
+    CONTAINER PRINCIPAL
+    ============================================================ -->
+    <div class="container">
+        <!-- TÍTULO -->
+        <h1>🌀 Liquid Morph</h1>
+        <p class="subtitle">Formas que se transformam organicamente com efeito líquido</p>
+
+        <!-- ============================================================
+        LOADER
+        ============================================================ -->
+        <div class="loader" id="loader" role="status" aria-label="Carregando...">
+            <!-- Formas geradas dinamicamente via JavaScript -->
+        </div>
+
+        <!-- ============================================================
+        BOTÕES DE CONTROLE
+        ============================================================ -->
+        <div class="controls">
+            <!-- Botão 1: Quantidade de Formas -->
+            <div class="control-group">
+                <button class="control-btn" id="btnShapes" title="Clique para alterar a quantidade de formas">
+                    <span class="btn-icon">🎯</span>
+                    <span class="btn-label">Formas</span>
+                    <span class="btn-value" id="shapesCount">6</span>
+                </button>
+                <div class="control-dropdown" id="shapesDropdown">
+                    <button data-value="4">4 formas</button>
+                    <button data-value="6" class="active">6 formas</button>
+                    <button data-value="8">8 formas</button>
+                    <button data-value="10">10 formas</button>
+                    <button data-value="12">12 formas</button>
+                </div>
+            </div>
+
+            <!-- Botão 2: Velocidade -->
+            <div class="control-group">
+                <button class="control-btn" id="btnSpeed" title="Clique para alterar a velocidade">
+                    <span class="btn-icon">⏱️</span>
+                    <span class="btn-label">Ciclo</span>
+                    <span class="btn-value" id="speedValue">6s</span>
+                </button>
+                <div class="control-dropdown" id="speedDropdown">
+                    <button data-value="2">2s (Rápido)</button>
+                    <button data-value="3">3s</button>
+                    <button data-value="4">4s</button>
+                    <button data-value="6" class="active">6s (Normal)</button>
+                    <button data-value="8">8s</button>
+                    <button data-value="10">10s (Lento)</button>
+                </div>
+            </div>
+
+            <!-- Botão 3: Efeito -->
+            <div class="control-group">
+                <button class="control-btn" id="btnEffect" title="Clique para alterar o efeito">
+                    <span class="btn-icon" id="effectIcon">🌀</span>
+                    <span class="btn-label">Efeito</span>
+                    <span class="btn-value" id="effectValue">Morfismo</span>
+                </button>
+                <div class="control-dropdown" id="effectDropdown">
+                    <button data-value="morph" class="active">🌀 Morfismo</button>
+                    <button data-value="pulse">💓 Pulso</button>
+                    <button data-value="wave">🌊 Onda</button>
+                    <button data-value="spin">🔄 Giro</button>
+                    <button data-value="bounce">🏀 Quique</button>
+                </div>
+            </div>
+
+            <!-- Botão 4: Filtro -->
+            <div class="control-group">
+                <button class="control-btn" id="btnFilter" title="Clique para alterar a intensidade do filtro">
+                    <span class="btn-icon">💎</span>
+                    <span class="btn-label">Filtro</span>
+                    <span class="btn-value" id="filterValue">15</span>
+                </button>
+                <div class="control-dropdown" id="filterDropdown">
+                    <button data-value="5">5 (Suave)</button>
+                    <button data-value="8">8</button>
+                    <button data-value="10">10</button>
+                    <button data-value="15" class="active">15 (Normal)</button>
+                    <button data-value="20">20</button>
+                    <button data-value="25">25 (Intenso)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SVG - FILTRO PARA EFEITO LÍQUIDO
+    ============================================================ -->
+    <svg aria-hidden="true">
+        <filter id="liquid">
+            <feGaussianBlur id="blurFilter" in="SourceGraphic" stdDeviation="15" />
+            <feColorMatrix id="colorMatrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 35 -18
+            " />
+        </filter>
+    </svg>
+
+    <!-- ============================================================
+    FOOTER
+    ============================================================ -->
+    <footer class="footer">
+        <p>Feito com <span class="heart">👏</span> usando SVG Filters &amp; CSS Animations</p>
+    </footer>
+
+    <!-- ============================================================
+    JAVASCRIPT - CONTROLES FUNCIONAIS
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // CONFIGURAÇÕES
+        // ============================================================
+        const config = {
+            shapes: 6,
+            speed: 6,
+            effect: 'morph',
+            filterIntensity: 15
+        };
+
+        // ============================================================
+        // DEFINIÇÃO DOS EFEITOS
+        // ============================================================
+        const effects = {
+            morph: {
+                name: 'Morfismo',
+                icon: '🌀',
+                keyframes: `
+                    0%, 100% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                        background: linear-gradient(45deg, #ff006e, #cc0055);
+                    }
+                    25% {
+                        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                        transform: translate(-50%, -50%) scale(1.5) rotate(45deg);
+                        background: linear-gradient(45deg, #ff6b00, #cc5500);
+                    }
+                    50% {
+                        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+                        transform: translate(-50%, -50%) scale(0.8) rotate(90deg);
+                        background: linear-gradient(45deg, #00d4ff, #004488);
+                    }
+                    75% {
+                        border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+                        transform: translate(-50%, -50%) scale(1.3) rotate(135deg);
+                        background: linear-gradient(45deg, #8800ff, #440088);
+                    }
+                `
+            },
+            pulse: {
+                name: 'Pulso',
+                icon: '💓',
+                keyframes: `
+                    0%, 100% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) scale(0.6);
+                        background: linear-gradient(45deg, #00d4ff, #004488);
+                        box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+                    }
+                    50% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) scale(1.8);
+                        background: linear-gradient(45deg, #ff006e, #cc0055);
+                        box-shadow: 0 0 80px rgba(255, 0, 110, 0.6);
+                    }
+                `
+            },
+            wave: {
+                name: 'Onda',
+                icon: '🌊',
+                keyframes: `
+                    0%, 100% {
+                        border-radius: 50% 50% 50% 50%;
+                        transform: translate(-50%, -50%) translateY(0) scale(1);
+                        background: linear-gradient(45deg, #00ff88, #00cc66);
+                    }
+                    25% {
+                        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                        transform: translate(-50%, -50%) translateY(-60px) scale(1.2);
+                        background: linear-gradient(45deg, #ff6b00, #cc5500);
+                    }
+                    75% {
+                        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+                        transform: translate(-50%, -50%) translateY(60px) scale(1.2);
+                        background: linear-gradient(45deg, #8800ff, #440088);
+                    }
+                `
+            },
+            spin: {
+                name: 'Giro',
+                icon: '🔄',
+                keyframes: `
+                    0% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+                        background: linear-gradient(45deg, #ff006e, #cc0055);
+                    }
+                    25% {
+                        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                        transform: translate(-50%, -50%) rotate(90deg) scale(1.3);
+                        background: linear-gradient(45deg, #ff6b00, #cc5500);
+                    }
+                    50% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) rotate(180deg) scale(0.7);
+                        background: linear-gradient(45deg, #00d4ff, #004488);
+                    }
+                    75% {
+                        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+                        transform: translate(-50%, -50%) rotate(270deg) scale(1.3);
+                        background: linear-gradient(45deg, #8800ff, #440088);
+                    }
+                `
+            },
+            bounce: {
+                name: 'Quique',
+                icon: '🏀',
+                keyframes: `
+                    0%, 100% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) translateY(0) scale(1);
+                        background: linear-gradient(45deg, #ff6b00, #cc5500);
+                    }
+                    30% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) translateY(-80px) scale(1.1);
+                        background: linear-gradient(45deg, #00ff88, #00cc66);
+                    }
+                    50% {
+                        border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+                        transform: translate(-50%, -50%) translateY(0) scale(0.8);
+                        background: linear-gradient(45deg, #00d4ff, #004488);
+                    }
+                    70% {
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%) translateY(-40px) scale(1.05);
+                        background: linear-gradient(45deg, #8800ff, #440088);
+                    }
+                `
+            }
+        };
+
+        // ============================================================
+        // DOM ELEMENTOS
+        // ============================================================
+        const loader = document.getElementById('loader');
+        const shapesCount = document.getElementById('shapesCount');
+        const speedValue = document.getElementById('speedValue');
+        const effectValue = document.getElementById('effectValue');
+        const effectIcon = document.getElementById('effectIcon');
+        const filterValue = document.getElementById('filterValue');
+
+        // Dropdowns
+        const dropdowns = {
+            shapes: document.getElementById('shapesDropdown'),
+            speed: document.getElementById('speedDropdown'),
+            effect: document.getElementById('effectDropdown'),
+            filter: document.getElementById('filterDropdown')
+        };
+
+        // Botões
+        const buttons = {
+            shapes: document.getElementById('btnShapes'),
+            speed: document.getElementById('btnSpeed'),
+            effect: document.getElementById('btnEffect'),
+            filter: document.getElementById('btnFilter')
+        };
+
+        // ============================================================
+        // FUNÇÕES PRINCIPAIS
+        // ============================================================
+
+        // Gerar formas no loader
+        function generateShapes(count) {
+            loader.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                const span = document.createElement('span');
+                span.style.setProperty('--i', i);
+                span.title = `Forma ${i}`;
+                loader.appendChild(span);
+            }
+            updateAnimation();
+        }
+
+        // Atualizar animação
+        function updateAnimation() {
+            const styleId = 'dynamic-style';
+            let styleEl = document.getElementById(styleId);
+
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = styleId;
+                document.head.appendChild(styleEl);
+            }
+
+            const effect = effects[config.effect];
+            const duration = config.speed;
+            const delay = (duration / config.shapes) * 0.5;
+
+            let css = `
+                .loader span {
+                    animation: morph ${duration}s ease-in-out infinite;
+                    animation-delay: calc(${delay}s * var(--i));
+                }
+                
+                @keyframes morph {
+                    ${effect.keyframes}
+                }
+            `;
+
+            styleEl.textContent = css;
+
+            // Atualizar filtro SVG
+            const blur = document.getElementById('blurFilter');
+            const matrix = document.getElementById('colorMatrix');
+
+            if (blur) {
+                blur.setAttribute('stdDeviation', config.filterIntensity);
+            }
+
+            if (matrix) {
+                const contrast = 20 + (config.filterIntensity * 1.2);
+                const offset = -(contrast / 2);
+                matrix.setAttribute('values', `
+                    1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 ${contrast} ${offset}
+                `);
+            }
+        }
+
+        // ============================================================
+        // FUNÇÕES DE CONTROLE
+        // ============================================================
+
+        function setShapes(value) {
+            config.shapes = parseInt(value);
+            shapesCount.textContent = value;
+            generateShapes(config.shapes);
+            updateActiveButton('shapes', value);
+            closeAllDropdowns();
+        }
+
+        function setSpeed(value) {
+            config.speed = parseInt(value);
+            speedValue.textContent = value + 's';
+            updateAnimation();
+            updateActiveButton('speed', value);
+            closeAllDropdowns();
+        }
+
+        function setEffect(value) {
+            config.effect = value;
+            const effect = effects[value];
+            effectValue.textContent = effect.name;
+            effectIcon.textContent = effect.icon;
+            updateAnimation();
+            updateActiveButton('effect', value);
+            closeAllDropdowns();
+        }
+
+        function setFilter(value) {
+            config.filterIntensity = parseInt(value);
+            filterValue.textContent = value;
+            updateAnimation();
+            updateActiveButton('filter', value);
+            closeAllDropdowns();
+        }
+
+        // ============================================================
+        // UI HELPERS
+        // ============================================================
+
+        function updateActiveButton(type, value) {
+            const dropdown = dropdowns[type];
+            if (!dropdown) return;
+
+            dropdown.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.value == value);
+            });
+        }
+
+        function toggleDropdown(type) {
+            const dropdown = dropdowns[type];
+            const isOpen = dropdown.classList.contains('open');
+
+            // Fecha todos os dropdowns
+            closeAllDropdowns();
+
+            // Abre o dropdown clicado se estava fechado
+            if (!isOpen) {
+                dropdown.classList.add('open');
+            }
+        }
+
+        function closeAllDropdowns() {
+            Object.values(dropdowns).forEach(d => d.classList.remove('open'));
+        }
+
+        // ============================================================
+        // EVENTOS DOS BOTÕES
+        // ============================================================
+
+        buttons.shapes.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown('shapes');
+        });
+
+        buttons.speed.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown('speed');
+        });
+
+        buttons.effect.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown('effect');
+        });
+
+        buttons.filter.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown('filter');
+        });
+
+        // Eventos dos dropdowns
+        dropdowns.shapes.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) setShapes(btn.dataset.value);
+        });
+
+        dropdowns.speed.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) setSpeed(btn.dataset.value);
+        });
+
+        dropdowns.effect.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) setEffect(btn.dataset.value);
+        });
+
+        dropdowns.filter.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) setFilter(btn.dataset.value);
+        });
+
+        // Fechar dropdowns ao clicar fora
+        document.addEventListener('click', closeAllDropdowns);
+
+        // ============================================================
+        // TECLAS DE ATALHO
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '1') { buttons.shapes.click(); }
+            if (e.key === '2') { buttons.speed.click(); }
+            if (e.key === '3') { buttons.effect.click(); }
+            if (e.key === '4') { buttons.filter.click(); }
+            if (e.key === 'Escape') { closeAllDropdowns(); }
+        });
+
+        // ============================================================
+        // INICIALIZAÇÃO
+        // ============================================================
+        generateShapes(config.shapes);
+        filterValue.textContent = config.filterIntensity;
+
+        console.log('🎮 Controles interativos:');
+        console.log('  [1] - Formas');
+        console.log('  [2] - Velocidade');
+        console.log('  [3] - Efeito');
+        console.log('  [4] - Filtro');
+        console.log('  [ESC] - Fechar menus');
+    </script>
+</body>
+
+</html>
